@@ -31,6 +31,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useSnackbar } from 'notistack'
 import About from './About'
 
+const keyMap = {
+    COPY: "alt+c",
+    reload: "alt+r"
+}
 
 
 function AboutDialog(props) {
@@ -124,6 +128,7 @@ function UserMenu(props) {
 
 
 export default function SpoGen(props) {
+
     const classes = useStyles()
     const [playbackStatus, setPlaybackStatus] = useState({
         loading: true,
@@ -146,9 +151,27 @@ export default function SpoGen(props) {
         setPlaybackStatus({ loading: false, ...result })
     }
 
+    const liteFetch = async () => {
+
+        const result = (await axios.get("/api/spotify/playbackInfo")).data
+        if (playbackStatus.isPlaying == true && playbackStatus.item.id !== result.item.id) {
+            setPlaybackStatus({ loading: true })
+            setLoadingLyrics(true)
+            setCurrentItem(null)
+            setPlaybackStatus({ loading: false, ...result })
+        }
+
+    }
+
     useEffect(() => {
         fetch()
+        
     }, [])
+
+    useEffect(() => {
+        const interval = setInterval(() => liteFetch(), 5000)
+        return () => clearInterval(interval)
+    }, [playbackStatus])
 
     const load = item => {
         if (item !== "nl") {
@@ -165,9 +188,6 @@ export default function SpoGen(props) {
         window.open(currentItem.url, "_blank")
     }
 
-    const copy = () => {
-
-    }
 
     return (
         <div className={classes.root}>
@@ -199,10 +219,10 @@ export default function SpoGen(props) {
             </AppBar>
             <Box py={3}>
                 <Container>
-                    <Box pb={3}>
+                    <Box>
                         <Metadata pInfo={playbackStatus} reload={fetch} />
                     </Box>
-                    <Grid container spacing={2}>
+                    <Grid container>
                         <Grid item xs={12} sm>
                             {!currentItem ? <></> : <LyricsView loadLyrics={ptSet} item={currentItem} loading={loadingLyrics}></LyricsView>}
                         </Grid>

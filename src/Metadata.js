@@ -75,7 +75,7 @@ export default withSnackbar(function Metadata(props) {
     } else {
         return (
 
-            <Card className={classes.card}>
+            <Card square className={classes.card}>
                 <Hidden xsDown implementation="css">
                     <CardMedia
                         className={classes.cover}

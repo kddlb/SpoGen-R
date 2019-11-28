@@ -13,6 +13,7 @@ import { withSnackbar } from 'notistack'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles(theme => ({
     sticky: {
@@ -85,7 +86,12 @@ export default withSnackbar(function ResultsList(props) {
           />)
     } else {
         return (
-            <Paper className={classes.sticky}>
+            <Paper square className={classes.sticky}>
+                <Paper style={{ position: "sticky", top: "65px", zIndex: 1 }} elevation={0}>
+                    <Box p={2}>
+                        <Typography variant="h6">Search results</Typography>
+                    </Box>
+                </Paper>
                 <List dense component="nav">
                     {list.map(x => (
                         <ListItem key={x.api_path} button selected={selectedItem === x} onClick={event => handleListItemClick(event, x)}>
