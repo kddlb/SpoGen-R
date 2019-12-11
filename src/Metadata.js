@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Container from '@material-ui/core/Container'
 import Box from '@material-ui/core/Box'
@@ -11,6 +11,7 @@ import Hidden from '@material-ui/core/Hidden'
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious'
 import SkipNextIcon from '@material-ui/icons/SkipNext'
 import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
 import axios from 'axios'
 
 import { withSnackbar } from 'notistack'
@@ -96,18 +97,22 @@ export default withSnackbar(function Metadata(props) {
                         </Typography>
                     </CardContent>
                     <div className={classes.controls}>
-                    <IconButton aria-label="previous" onClick={()=>spAction('previous')}>
-                        <SkipPreviousIcon />
-                    </IconButton>
+                        <Tooltip title="Go to previous track">
+                            <IconButton aria-label="previous" onClick={() => spAction('previous')}>
+                                <SkipPreviousIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Go to next track">
 
-                    <IconButton aria-label="next" onClick={()=>spAction('next')}>
-                         <SkipNextIcon />
-                    </IconButton>
-                    {loading ? <CircularProgress/> : <></>}
-                    
+                            <IconButton aria-label="next" onClick={() => spAction('next')}>
+                                <SkipNextIcon />
+                            </IconButton>
+                        </Tooltip>
+                        {loading ? <CircularProgress /> : <></>}
+
                     </div>
                 </div>
-                
+
 
             </Card>
         )

@@ -43,12 +43,10 @@ export default function LyricsView(props) {
         )
     } else {
         return (
-            <Paper square>
-                <Paper style={{ position: "sticky", top: "65px" }} elevation={0}>
-                    <Box p={2}>
-                        <Typography variant="h6">Lyrics</Typography>
-                    </Box>
-                </Paper>
+            <Paper>
+                <Box p={2}>
+                    <Typography variant="h6">Lyrics</Typography>
+                </Box>
                 <Box px={2} pb={2}>
                     {htmlToReactParser.parse(content.html)}
                 </Box>

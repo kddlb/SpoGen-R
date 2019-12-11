@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
-
+import Link from '@material-ui/core/Link'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
@@ -112,9 +112,11 @@ function UserMenu(props) {
                 onClose={handleClose}
 
             >
-                <MenuItem onClick={_ => { window.open(props.user.external_urls.spotify, '_blank') }}>
-                    Go to user profile
-                </MenuItem>
+                <Link href={props.user.external_urls.spotify} target="_blank" color="inherit" underline="none">
+                    <MenuItem>
+                        Go to user profile
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={_ => { document.location.href = "/api/session/delete" }}>
                     Sign out
                 </MenuItem>
@@ -184,9 +186,7 @@ export default function SpoGen(props) {
         setPlainText(text)
     }
 
-    const openExternal = () => {
-        window.open(currentItem.url, "_blank")
-    }
+
 
 
     return (
@@ -204,11 +204,13 @@ export default function SpoGen(props) {
                         </CopyToClipboard>
 
                     </Tooltip>
-                    <Tooltip title="Open in Genius.com">
-                        <IconButton color="inherit" onClick={openExternal}>
-                            <OpenInNewIcon />
-                        </IconButton>
-                    </Tooltip>
+                    <Link href={currentItem && currentItem.url || ""} target="_blank" color="inherit" underline="none">
+                        <Tooltip title="Open in Genius.com">
+                            <IconButton color="inherit">
+                                <OpenInNewIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Link>
                     <Tooltip title="Refresh">
                         <IconButton color="inherit" onClick={fetch}>
                             <RefreshIcon />
@@ -219,10 +221,10 @@ export default function SpoGen(props) {
             </AppBar>
             <Box py={3}>
                 <Container>
-                    <Box>
+                    <Box pb={3}>
                         <Metadata pInfo={playbackStatus} reload={fetch} />
                     </Box>
-                    <Grid container>
+                    <Grid container spacing={3}>
                         <Grid item xs={12} sm>
                             {!currentItem ? <></> : <LyricsView loadLyrics={ptSet} item={currentItem} loading={loadingLyrics}></LyricsView>}
                         </Grid>

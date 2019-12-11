@@ -73,25 +73,23 @@ export default withSnackbar(function ResultsList(props) {
         props.load("nl")
         return (<Snackbar
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+                vertical: 'bottom',
+                horizontal: 'left',
             }}
             open={true}
             autoHideDuration={6000}
             ContentProps={{
-              'aria-describedby': 'message-id',
+                'aria-describedby': 'message-id',
             }}
             message={<span id="message-id">Lyrics not found.</span>}
-            
-          />)
+
+        />)
     } else {
         return (
             <Paper square className={classes.sticky}>
-                <Paper style={{ position: "sticky", top: "65px", zIndex: 1 }} elevation={0}>
-                    <Box p={2}>
-                        <Typography variant="h6">Search results</Typography>
-                    </Box>
-                </Paper>
+                <Box p={2}>
+                    <Typography variant="h6">Search results</Typography>
+                </Box>
                 <List dense component="nav">
                     {list.map(x => (
                         <ListItem key={x.api_path} button selected={selectedItem === x} onClick={event => handleListItemClick(event, x)}>
