@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect, Suspense} from 'react'
 import axios from 'axios'
 
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -15,10 +15,9 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { SnackbarProvider } from 'notistack'
 
 import About from './About'
-import SpoGen from './SpoGen'
-
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+const SpoGen = React.lazy(() => import('./SpoGen'));
 
 const SignInButton = withStyles(theme => ({
   root: {
@@ -29,6 +28,15 @@ const SignInButton = withStyles(theme => ({
     }
   },
 }))(Button);
+
+
+function FallbackLoader() {
+  return (<Container>
+    <Box display="flex" justifyContent="center" m={2}>
+      <CircularProgress />
+    </Box>
+  </Container>)
+}
 
 function App() {
 
@@ -62,15 +70,11 @@ function App() {
 
   if (authStatus.loading) {
     app = (
-      <Container>
-        <Box display="flex" justifyContent="center" m={2}>
-          <CircularProgress />
-        </Box>
-      </Container>
+      <FallbackLoader />
     )
   } else {
     if (authStatus.authenticated) {
-      app = (<SpoGen auth={authStatus} />)
+      app = (<Suspense fallback={ <FallbackLoader />}><SpoGen auth={authStatus} /></Suspense>)
     } else {
       app = (
         <Container>

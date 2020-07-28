@@ -22,7 +22,10 @@ export default function LyricsView(props) {
         if (props.item != null || props.item != undefined) {
             setLoading(true)
             setContent({ html: "", text: "" })
-            const result = (await axios.get(`/api/genius/get${props.item.path}`)).data
+            //const result = (await axios.get(`/api/genius/get${props.item.path}`)).data
+
+            let page = (await axios.get(`https://cwp.losno.co/?${props.item.url}`)).data
+            let result = (await axios.post("/api/genius/parse", {text: page})).data
             setLoading(false)
             setContent(result)
             props.loadLyrics(result.text)
